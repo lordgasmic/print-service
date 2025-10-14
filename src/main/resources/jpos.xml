@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE JposEntries PUBLIC "-//JavaPOS//DTD//EN" "jpos/res/jcl.dtd">
+<JposEntries>
+
+  <JposEntry logicalName="POSPrinter_linux_parallel">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="TSP743II" />
+    <prop name="portName" type="String" value="/dev/parport0" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="POSPrinter_linux_serial">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="TSP743II" />
+    <prop name="portName" type="String" value="/dev/ttyS0" />
+    <prop name="portSettings" type="String" value="9600,n,8,1,h" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="POSPrinter_linux_usb_printer_class">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="MCP31" />
+    <prop name="portName" type="String" value="usbprn:MCP31" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="POSPrinter_linux_usb_vendor_class">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="TSP743II" />
+    <prop name="portName" type="String" value="usbven:" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="POSPrinter_linux_ethernet">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="MCP21" />
+    <prop name="portName" type="String" value="tcp:192.168.32.72" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="POSPrinter_linux_bluetooth">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="POP10" />
+    <prop name="portName" type="String" value="/dev/rfcomm0" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="DotMatrixPrinter_linux_bluetooth">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="Star Micronics POSPrinter controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="SP742" />
+    <prop name="portName" type="String" value="/dev/rfcomm0" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="30000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="useNVBitImage" type="Boolean" value="False" />
+  </JposEntry>
+
+  <JposEntry logicalName="CashDrawer_linux_parallel">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.CashDrawerService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="CashDrawer" version="1.13" />
+    <product description="Printer controlled cash drawer" name="Star Micronics cash drawer controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="portName" type="String" value="/dev/parport0" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="controlPrimaryDrawer" type="Boolean" value="True" />
+    <prop name="firePulseWidth" type="Long" value="200" />
+    <prop name="sleepPulseWidth" type="Long" value="200" />
+    <prop name="capStatus" type="Boolean" value="True" />
+    <prop name="signalLevelHighWhenDrawerOpen" type="Boolean" value="True" />
+  </JposEntry>
+
+  <JposEntry logicalName="CashDrawer_linux_serial">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.CashDrawerService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="CashDrawer" version="1.13" />
+    <product description="Printer controlled cash drawer" name="Star Micronics cash drawer controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="portName" type="String" value="/dev/ttyS0" />
+    <prop name="portSettings" type="String" value="9600,n,8,1,h" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="controlPrimaryDrawer" type="Boolean" value="True" />
+    <prop name="firePulseWidth" type="Long" value="200" />
+    <prop name="sleepPulseWidth" type="Long" value="200" />
+    <prop name="capStatus" type="Boolean" value="True" />
+    <prop name="signalLevelHighWhenDrawerOpen" type="Boolean" value="True" />
+  </JposEntry>
+
+  <JposEntry logicalName="CashDrawer_linux_usb_printer_class">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.CashDrawerService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="CashDrawer" version="1.13" />
+    <product description="Printer controlled cash drawer" name="Star Micronics cash drawer controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="portName" type="String" value="usbprn:TSP743II" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="controlPrimaryDrawer" type="Boolean" value="True" />
+    <prop name="firePulseWidth" type="Long" value="200" />
+    <prop name="sleepPulseWidth" type="Long" value="200" />
+    <prop name="capStatus" type="Boolean" value="True" />
+    <prop name="signalLevelHighWhenDrawerOpen" type="Boolean" value="True" />
+  </JposEntry>
+
+  <JposEntry logicalName="CashDrawer_linux_usb_vendor_class">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.CashDrawerService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="CashDrawer" version="1.13" />
+    <product description="Printer controlled cash drawer" name="Star Micronics cash drawer controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="portName" type="String" value="usbven:" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="controlPrimaryDrawer" type="Boolean" value="True" />
+    <prop name="firePulseWidth" type="Long" value="200" />
+    <prop name="sleepPulseWidth" type="Long" value="200" />
+    <prop name="capStatus" type="Boolean" value="True" />
+    <prop name="signalLevelHighWhenDrawerOpen" type="Boolean" value="True" />
+  </JposEntry>
+
+  <JposEntry logicalName="CashDrawer_linux_ethernet">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.CashDrawerService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="CashDrawer" version="1.13" />
+    <product description="Printer controlled cash drawer" name="Star Micronics cash drawer controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="portName" type="String" value="tcp:192.168.32.72" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="controlPrimaryDrawer" type="Boolean" value="True" />
+    <prop name="firePulseWidth" type="Long" value="200" />
+    <prop name="sleepPulseWidth" type="Long" value="200" />
+    <prop name="capStatus" type="Boolean" value="True" />
+    <prop name="signalLevelHighWhenDrawerOpen" type="Boolean" value="True" />
+  </JposEntry>
+
+  <JposEntry logicalName="CashDrawer_linux_bluetooth">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.CashDrawerService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="CashDrawer" version="1.13" />
+    <product description="Printer controlled cash drawer" name="Star Micronics cash drawer controller" url="www.star-m.jp/eng/index.htm" />
+    <prop name="portName" type="String" value="/dev/rfcomm0" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="controlPrimaryDrawer" type="Boolean" value="True" />
+    <prop name="firePulseWidth" type="Long" value="200" />
+    <prop name="sleepPulseWidth" type="Long" value="200" />
+    <prop name="capStatus" type="Boolean" value="True" />
+    <prop name="signalLevelHighWhenDrawerOpen" type="Boolean" value="True" />
+  </JposEntry>
+
+  <JposEntry logicalName="HSP7000_MICR_linux_parallel">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.MICRService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="MICR" version="1.13" />
+    <product description="Star MICR" name="HSP7000" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="HSP7000" />
+    <prop name="portName" type="String" value="/dev/parport0" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="15000" />
+    <prop name="format" type="String" value="E13B" />
+  </JposEntry>
+
+  <JposEntry logicalName="HSP7000_MICR_linux_serial">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.MICRService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="MICR" version="1.13" />
+    <product description="Star MICR" name="HSP7000" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="HSP7000" />
+    <prop name="portName" type="String" value="/dev/ttyS0" />
+    <prop name="portSettings" type="String" value="9600,n,8,1,h" />
+    <prop name="ioTimeoutMillis" type="Integer" value="15000" />
+    <prop name="format" type="String" value="E13B" />
+  </JposEntry>
+
+  <JposEntry logicalName="HSP7000_MICR_linux_usb_vendor_class">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.MICRService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="MICR" version="1.13" />
+    <product description="Star MICR" name="HSP7000" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="HSP7000" />
+    <prop name="portName" type="String" value="usbven:HSP7000" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="15000" />
+    <prop name="format" type="String" value="E13B" />
+  </JposEntry>
+
+  <JposEntry logicalName="HSP7000_MICR_linux_ethernet">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.MICRService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="MICR" version="1.13" />
+    <product description="Star MICR" name="HSP7000" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="HSP7000" />
+    <prop name="portName" type="String" value="tcp:192.168.32.72" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="15000" />
+    <prop name="format" type="String" value="E13B" />
+  </JposEntry>
+
+</JposEntries>
