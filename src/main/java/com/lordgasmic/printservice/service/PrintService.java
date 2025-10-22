@@ -7,12 +7,19 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class PrintService {
+
+    private static final String PRINTER_IP = "172.16.0.31";
+    private static final int PRINTER_PORT = 9100;
 
     private final Gson gson;
 
@@ -30,91 +37,57 @@ public class PrintService {
             log.info("LGC-7E24563E-4960-438A-AC85-A90261F1F376: Properties: {}: {}", key, payload.getProperties().get(key));
         }
 
-        final String receipt = "Item 1: $10.00\nItem 2: $5.50\nTotal: $15.50";
-        printReceipt(receipt);
+        printReceipt(payload.getProperties());
     }
 
-    private static final String PRINTER_IP = "172.16.0.32"; // Replace with your printer's IP
-    private static final int PRINTER_PORT = 9100; // Standard port for thermal printers
-
-    public void printReceipt(final String receiptContent) {
+    public void printReceipt(final Map<String, List<String>> receiptContent) {
         try (final Socket socket = new Socket(PRINTER_IP, PRINTER_PORT);
              final OutputStream os = socket.getOutputStream()) {
 
-            // Basic ESC/POS commands (example: center text, bold, cut paper)
-            final byte[] centerAlign = {0x1B, 0x61, 0x01}; // ESC a 1 (center alignment)
-//            final byte[] boldOn = {0x1B, 0x45, 0x01};    // ESC E 1 (bold on)
-//            final byte[] boldOff = {0x1B, 0x45, 0x00};   // ESC E 0 (bold off)
-            final byte[] cutPaper = {0x1D, 0x56, 0x00}; // GS V 0 (full cut)
-//            final byte[] cutPaper = {0x1D, 0x56, 0x00, 0x30}; // GS V 0 (full cut)
+            final StringBuilder sb = new StringBuilder();
 
-            // Write commands and content
-//            os.write(centerAlign);
-//            os.write(boldOn);
-            os.write("--- Your Store ---".getBytes());
-//            os.write(boldOff);
-            os.write("\n".getBytes()); // Newline
+            final String initialize = "\u001B@";
+            final String defaultCharacterSize = "\u001D!\u0000";
+            final String centerAlign = "\u001Ba\u0001";
+            final String leftAlign = "\u001Ba\u0000";
+            final String titleCharacterSize = "\u001D!\u0012";
+            final String cut = "\u001DVA\u0000";
 
-            os.write(receiptContent.getBytes()); // Your receipt content
+            final Instant now = Instant.now();
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("America/Detroit"));
 
-            os.write("\n\n\n".getBytes()); // Add some line feeds
-            os.write(cutPaper);
+            sb.append(initialize);
+            sb.append(centerAlign);
+            sb.append(titleCharacterSize);
+            sb.append("Lordgasmic\nOrdering").append(System.lineSeparator());
+            sb.append(defaultCharacterSize);
+            sb.append(leftAlign);
+            sb.append("\u001B32\n").append("\u001B30");
+            sb.append(formatter.format(now));
+            sb.append(System.lineSeparator());
+            sb.append("Source: Online Order");
+            sb.append(System.lineSeparator());
+            sb.append(System.lineSeparator());
+            sb.append("Items").append(System.lineSeparator());
+            sb.append(centerAlign);
+            sb.append("------------------------------------------").append(System.lineSeparator());
+            sb.append(leftAlign);
 
-            os.flush(); // Ensure all data is sent
-            log.info("flushed");
+            for (final Map.Entry<String, List<String>> entry : receiptContent.entrySet()) {
+                sb.append(entry.getKey()).append(System.lineSeparator());
+                for (final String s : entry.getValue()) {
+                    sb.append("  - ").append(s).append(System.lineSeparator());
+                }
+                sb.append(System.lineSeparator());
+            }
+
+            sb.append(System.lineSeparator());
+            sb.append(cut);
+
+            os.write(sb.toString().getBytes());
+            os.flush();
         } catch (final IOException e) {
-            log.error("Error printing to thermal printer: {}", e.getMessage());
-        }
-    }
-
-    public void printReceipt2(final String receiptContent) {
-        try (final Socket socket = new Socket(PRINTER_IP, PRINTER_PORT);
-             final OutputStream os = socket.getOutputStream()) {
-            final PrintStream out = new PrintStream(os);
-
-            // Basic ESC/POS commands (example: center text, bold, cut paper)
-            final byte[] centerAlign = {0x1B, 0x61, 0x01}; // ESC a 1 (center alignment)
-//            final byte[] boldOn = {0x1B, 0x45, 0x01};    // ESC E 1 (bold on)
-//            final byte[] boldOff = {0x1B, 0x45, 0x00};   // ESC E 0 (bold off)
-            final byte[] cutPaper = {0x1D, 0x56, 0x00}; // GS V 0 (full cut)
-//            final byte[] cutPaper = {0x1D, 0x56, 0x00, 0x30}; // GS V 0 (full cut)
-
-            // Write commands and content
-//            os.write(centerAlign);
-//            os.write(boldOn);
-            out.println("derp");
-            out.flush();
-            os.write("--- Your Store ---".getBytes());
-//            os.write(boldOff);
-            os.write("\n".getBytes()); // Newline
-
-            os.write(receiptContent.getBytes()); // Your receipt content
-
-            os.write("\n\n\n".getBytes()); // Add some line feeds
-            os.write(cutPaper);
-
-            os.flush(); // Ensure all data is sent
-            log.info("flushed");
-        } catch (final IOException e) {
-            log.error("Error printing to thermal printer: {}", e.getMessage());
-        }
-    }
-
-    private void printDocument(final String document) {
-        try (final Socket socket = new Socket(PRINTER_IP, PRINTER_PORT);
-             final OutputStream outputStream = socket.getOutputStream()) {
-
-            final String receipt = "Item 1: $10.00\nItem 2: $5.50\nTotal: $15.50\n";
-            final byte[] formFeed = {0x0C};
-
-            // Send the data to be printed
-            outputStream.write("Hello from Java!\n\n".getBytes());
-            outputStream.write(receipt.getBytes());
-            outputStream.write(document.getBytes());
-            outputStream.write(formFeed);
-
-        } catch (final IOException e) {
-            log.error("Error printing to physical printer: {}", e.getMessage());
+            log.error("LGC-43F5D1D6-E829-4563-84C5-2F6A08EE81D4: Error printing to thermal printer: {}", e.getMessage());
         }
     }
 }
