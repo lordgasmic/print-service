@@ -1,0 +1,40 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven and Docker
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  vars:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.date }}
+    steps:
+      - id: step1
+        run: echo "::set-output name=date::lordgasmic/print-service"
+
+  build:
+    needs: vars
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Build with Docker
+        run: docker build . --file Dockerfile --tag ${{ needs.vars.outputs.output1 }}
+      - name: Docker Login
+        uses: docker/login-action@v1.10.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker Push
+        run: docker push ${{ needs.vars.outputs.output1 }}
