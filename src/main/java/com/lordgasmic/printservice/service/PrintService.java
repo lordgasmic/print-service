@@ -1,7 +1,9 @@
 package com.lordgasmic.printservice.service;
 
 import com.google.gson.Gson;
+import com.lordgasmic.printservice.models.Payload;
 import com.lordgasmic.printservice.models.PrintPayload;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,28 +23,33 @@ public class PrintService {
     private static final String PRINTER_IP = "172.16.0.31";
     private static final int PRINTER_PORT = 9100;
 
+    private final MeterRegistry meterRegistry;
     private final Gson gson;
 
-    public PrintService() {
+    public PrintService(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+
         gson = new Gson();
     }
 
     public void handleMessage(final String message) {
         log.info("LGC-44B29208-3084-45DD-B47F-8F167A2DB5F5: Received Message: {}", message);
 
-        final PrintPayload payload = gson.fromJson(message, PrintPayload.class);
-        log.info("LGC-D0F6D48A-7E26-4EBE-80F7-F5C6E0D58DBC: Message: {}", payload.getMessage());
+        meterRegistry.counter("print-service.print-requests.total").increment();
 
-        for (final String key : payload.getProperties().keySet()) {
-            log.info("LGC-7E24563E-4960-438A-AC85-A90261F1F376: Properties: {}: {}", key, payload.getProperties().get(key));
+        Payload payload = gson.fromJson(message, Payload.class);
+        switch (payload.getType()) {
+            case PRINT -> printReceipt(message);
+            case NOTIFICATION -> throw new UnsupportedOperationException("NOTIFICATION not supported yet.");
+            case FETCH -> throw new UnsupportedOperationException("FETCH not supported yet.");
+            default -> throw new UnsupportedOperationException("Unknown type.");
         }
-
-        printReceipt(payload.getProperties());
     }
 
-    public void printReceipt(final Map<String, List<String>> receiptContent) {
+    private void printReceipt(final String message) {
         try (final Socket socket = new Socket(PRINTER_IP, PRINTER_PORT);
              final OutputStream os = socket.getOutputStream()) {
+            final PrintPayload payload = gson.fromJson(message, PrintPayload.class);
 
             final StringBuilder sb = new StringBuilder();
 
@@ -73,7 +80,7 @@ public class PrintService {
             sb.append("------------------------------------------").append(System.lineSeparator());
             sb.append(leftAlign);
 
-            for (final Map.Entry<String, List<String>> entry : receiptContent.entrySet()) {
+            for (final Map.Entry<String, List<String>> entry : payload.getProperties().entrySet()) {
                 sb.append(entry.getKey()).append(System.lineSeparator());
                 for (final String s : entry.getValue()) {
                     sb.append("  - ").append(s).append(System.lineSeparator());
@@ -86,7 +93,10 @@ public class PrintService {
 
             os.write(sb.toString().getBytes());
             os.flush();
+
+            meterRegistry.counter("print-service.print-requests.success").increment();
         } catch (final IOException e) {
+            meterRegistry.counter("print-service.print-requests.failed").increment();
             log.error("LGC-43F5D1D6-E829-4563-84C5-2F6A08EE81D4: Error printing to thermal printer: {}", e.getMessage());
         }
     }
