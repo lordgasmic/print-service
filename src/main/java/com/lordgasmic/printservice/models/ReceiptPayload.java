@@ -8,7 +8,7 @@ import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PrintPayload extends Payload {
+public class ReceiptPayload extends Payload {
     private String message;
     private Map<String, List<String>> properties;
 }
