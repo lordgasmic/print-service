@@ -5,14 +5,13 @@ import com.lordgasmic.printservice.models.ReceiptPayload;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 
 public class ReceiptPrinter extends Printer {
 
     private final ReceiptPayload payload;
 
-    public ReceiptPrinter(ReceiptPayload payload) {
+    public ReceiptPrinter(final ReceiptPayload payload) {
         super();
 
         this.payload = payload;
@@ -51,7 +50,7 @@ public class ReceiptPrinter extends Printer {
         sb.append("------------------------------------------").append(System.lineSeparator());
         sb.append(leftAlign);
 
-        for (final Map.Entry<String, List<String>> entry : payload.getProperties().entrySet()) {
+        for (final Map.Entry<String, String[]> entry : payload.getProperties().entrySet()) {
             sb.append(entry.getKey()).append(System.lineSeparator());
             for (final String s : entry.getValue()) {
                 sb.append("  - ").append(s).append(System.lineSeparator());
