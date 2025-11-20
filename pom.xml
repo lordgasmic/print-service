@@ -21,23 +21,10 @@
     <description>Lordgasmic Print Service Application</description>
 
     <properties>
-<!--        <spring-cloud.version>2025.1.0-M4</spring-cloud.version>-->
         <commons-io-version>2.21.0</commons-io-version>
         <commons-lang3-version>3.20.0</commons-lang3-version>
         <java.version>17</java.version>
     </properties>
-
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
-<!--                <version>${spring-cloud.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
 
     <dependencies>
         <dependency>
