@@ -26,13 +26,14 @@ public abstract class Printer {
     }
 
     public static Printer getPrinter(final String message) {
+        final Gson mGson = new Gson();
         try {
             log.info("LGC:laskjdflk - message: {}", message);
-            final Payload payload = new Gson().fromJson(message, Payload.class);
+            final Payload payload = mGson.fromJson(message, Payload.class);
             log.info("LGC:9s8d7yfy9s8hdf - payload: {}", payload);
             switch (payload.getType()) {
                 case RECEIPT -> {
-                    return new ReceiptPrinter((ReceiptPayload) payload);
+                    return new ReceiptPrinter(mGson.fromJson(message, ReceiptPayload.class));
                 }
                 case NOTIFICATION -> throw new UnsupportedOperationException("NOTIFICATION not supported yet.");
                 case FETCH -> throw new UnsupportedOperationException("FETCH not supported yet.");
