@@ -25,16 +25,25 @@ public abstract class Printer {
         gson = new Gson();
     }
 
-    public static Printer getPrinter(String message) {
-        Payload payload = new Gson().fromJson(message, Payload.class);
-        switch (payload.getType()) {
-            case RECEIPT -> {
-                return new ReceiptPrinter((ReceiptPayload) payload);
+    public static Printer getPrinter(final String message) {
+        try {
+            log.info("LGC:laskjdflk - message: {}", message);
+            final Payload payload = new Gson().fromJson(message, Payload.class);
+            log.info("LGC:9s8d7yfy9s8hdf - payload: {}", payload);
+            switch (payload.getType()) {
+                case RECEIPT -> {
+                    return new ReceiptPrinter((ReceiptPayload) payload);
+                }
+                case NOTIFICATION -> throw new UnsupportedOperationException("NOTIFICATION not supported yet.");
+                case FETCH -> throw new UnsupportedOperationException("FETCH not supported yet.");
+                default -> throw new UnsupportedOperationException("Unknown type.");
             }
-            case NOTIFICATION -> throw new UnsupportedOperationException("NOTIFICATION not supported yet.");
-            case FETCH -> throw new UnsupportedOperationException("FETCH not supported yet.");
-            default -> throw new UnsupportedOperationException("Unknown type.");
+        } catch (final ClassCastException e) {
+            log.error(e.getMessage());
+            log.error("Could not cast class", e);
         }
+
+        throw new RuntimeException("Casting derped");
     }
 
     public void doPrint() {
@@ -43,7 +52,7 @@ public abstract class Printer {
         try (final Socket socket = new Socket(PRINTER_IP, PRINTER_PORT);
              final OutputStream os = socket.getOutputStream()) {
 
-            String content = print();
+            final String content = print();
 
             os.write(content.getBytes());
             os.flush();
