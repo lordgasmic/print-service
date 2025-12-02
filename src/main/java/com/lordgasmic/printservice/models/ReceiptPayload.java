@@ -9,5 +9,5 @@ import java.util.Map;
 @Data
 public class ReceiptPayload extends Payload {
     private String message;
-    private Map<String, String[]> properties;
+    private Map<RecieptPrinterOptions, String[]> properties;
 }

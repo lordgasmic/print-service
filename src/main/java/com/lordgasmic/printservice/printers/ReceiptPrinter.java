@@ -1,6 +1,7 @@
 package com.lordgasmic.printservice.printers;
 
 import com.lordgasmic.printservice.models.ReceiptPayload;
+import com.lordgasmic.printservice.models.ReceiptPrinterOptions;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -50,8 +51,9 @@ public class ReceiptPrinter extends Printer {
         sb.append("------------------------------------------").append(System.lineSeparator());
         sb.append(leftAlign);
 
-        for (final Map.Entry<String, String[]> entry : payload.getProperties().entrySet()) {
-            sb.append(entry.getKey()).append(System.lineSeparator());
+        for (final Map.Entry<ReceiptPrinterOptions, String[]> entry : payload.getProperties().entrySet()) {
+            meterRegistry.counter("print-service.print-requests."+ entry.getKey().toString()).increment();
+            sb.append(entry.getKey().getValue()).append(System.lineSeparator());
             for (final String s : entry.getValue()) {
                 sb.append("  - ").append(s).append(System.lineSeparator());
             }
