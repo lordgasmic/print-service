@@ -1,6 +1,7 @@
 package com.lordgasmic.printservice.printers;
 
 import com.google.gson.Gson;
+import com.lordgasmic.printservice.models.GroceryListPayload;
 import com.lordgasmic.printservice.models.Payload;
 import com.lordgasmic.printservice.models.ReceiptPayload;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -28,15 +29,16 @@ public abstract class Printer {
     public static Printer getPrinter(final String message) {
         final Gson mGson = new Gson();
         try {
-            log.info("LGC:laskjdflk - message: {}", message);
             final Payload payload = mGson.fromJson(message, Payload.class);
-            log.info("LGC:9s8d7yfy9s8hdf - payload: {}", payload);
             switch (payload.getType()) {
                 case RECEIPT -> {
                     return new ReceiptPrinter(mGson.fromJson(message, ReceiptPayload.class));
                 }
                 case NOTIFICATION -> throw new UnsupportedOperationException("NOTIFICATION not supported yet.");
                 case FETCH -> throw new UnsupportedOperationException("FETCH not supported yet.");
+                case GROCERY_LIST -> {
+                    return new GroceryListPrinter(mGson.fromJson(message, GroceryListPayload.class));
+                }
                 default -> throw new UnsupportedOperationException("Unknown type.");
             }
         } catch (final ClassCastException e) {
