@@ -1,13 +1,15 @@
 package com.lordgasmic.printservice.printers;
 
 import com.lordgasmic.printservice.models.GroceryListPayload;
+import com.lordgasmic.printservice.models.Item;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
-public class GroceryListPrinter extends Printer{
+public class GroceryListPrinter extends Printer {
 
     private final GroceryListPayload payload;
 
@@ -48,10 +50,10 @@ public class GroceryListPrinter extends Printer{
         sb.append("------------------------------------------").append(System.lineSeparator());
         sb.append(leftAlign);
 
-        for (final Map.Entry<String, String[]> entry : payload.getProperties().entrySet()) {
+        for (final Map.Entry<String, List<Item>> entry : payload.getGroceryList().entrySet()) {
             sb.append(entry.getKey()).append(System.lineSeparator());
-            for (final String s : entry.getValue()) {
-                sb.append("  - ").append(s).append(System.lineSeparator());
+            for (final Item item : entry.getValue()) {
+                sb.append("  - ").append(item.quantity()).append(" ").append(item.item()).append(System.lineSeparator());
             }
             sb.append(System.lineSeparator());
         }
