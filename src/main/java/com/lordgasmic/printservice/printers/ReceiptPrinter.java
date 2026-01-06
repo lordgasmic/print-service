@@ -1,6 +1,8 @@
 package com.lordgasmic.printservice.printers;
 
+import com.lordgasmic.printservice.models.GroceryListPayload;
 import com.lordgasmic.printservice.models.ReceiptPayload;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -11,10 +13,10 @@ public class ReceiptPrinter extends Printer {
 
     private final ReceiptPayload payload;
 
-    public ReceiptPrinter(final ReceiptPayload payload) {
-        super();
+    public ReceiptPrinter(MeterRegistry meterRegistry, final String message) {
+        super(meterRegistry);
 
-        this.payload = payload;
+        this.payload = gson.fromJson(message, ReceiptPayload.class);
     }
 
     @Override
@@ -22,13 +24,6 @@ public class ReceiptPrinter extends Printer {
         meterRegistry.counter("print-service.print-requests.receipt.total").increment();
 
         final StringBuilder sb = new StringBuilder();
-
-        final String initialize = "\u001B@";
-        final String leftAlign = "\u001Ba\u0000";
-        final String centerAlign = "\u001Ba\u0001";
-        final String defaultCharacterSize = "\u001D!\u0000";
-        final String titleCharacterSize = "\u001D!\u0012";
-        final String cut = "\u001DVA\u0000";
 
         final Instant now = Instant.now();
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("America/Detroit"));
@@ -39,7 +34,9 @@ public class ReceiptPrinter extends Printer {
         sb.append("Lordgasmic\nOrdering").append(System.lineSeparator());
         sb.append(defaultCharacterSize);
         sb.append(leftAlign);
-        sb.append("\u001B32\n").append("\u001B30");
+        sb.append(oneSixthInchLineSpacing);
+        sb.append(System.lineSeparator());
+        sb.append(oneEighthInchLineSpacing);
         sb.append(formatter.format(now));
         sb.append(System.lineSeparator());
         sb.append("Source: Online Order");

@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
-@Setter
 public abstract class Printer {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Printer.class);
@@ -19,34 +18,22 @@ public abstract class Printer {
     protected static final String PRINTER_IP = "172.16.0.31";
     protected static final int PRINTER_PORT = 9100;
 
+    protected static final String initialize = "\u001B@";
+    protected static final String leftAlign = "\u001Ba\u0000";
+    protected static final String centerAlign = "\u001Ba\u0001";
+    protected static final String defaultCharacterSize = "\u001D!\u0000";
+    protected static final String titleCharacterSize = "\u001D!\u0012";
+    protected static final String cut = "\u001DVA\u0000";
+    protected static final String oneSixthInchLineSpacing = "\u001B32";
+    protected static final String oneEighthInchLineSpacing = "\u001B30";
+
     protected MeterRegistry meterRegistry;
     protected Gson gson;
 
-    public Printer() {
+    public Printer( MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+
         gson = new Gson();
-    }
-
-    public static Printer getPrinter(final String message) {
-        final Gson mGson = new Gson();
-        try {
-            final Payload payload = mGson.fromJson(message, Payload.class);
-            switch (payload.getType()) {
-                case RECEIPT -> {
-                    return new ReceiptPrinter(mGson.fromJson(message, ReceiptPayload.class));
-                }
-                case NOTIFICATION -> throw new UnsupportedOperationException("NOTIFICATION not supported yet.");
-                case FETCH -> throw new UnsupportedOperationException("FETCH not supported yet.");
-                case GROCERY_LIST -> {
-                    return new GroceryListPrinter(mGson.fromJson(message, GroceryListPayload.class));
-                }
-                default -> throw new UnsupportedOperationException("Unknown type.");
-            }
-        } catch (final ClassCastException e) {
-            log.error(e.getMessage());
-            log.error("Could not cast class", e);
-        }
-
-        throw new RuntimeException("Casting derped");
     }
 
     public void doPrint() {
